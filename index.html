@@ -6,25 +6,42 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bunchuk_HW todu-list</title>
-    <link rel ="stylesheet" href="fonts.css">
+    <link rel="stylesheet" href="fonts.css">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <section>
         <h2>Задачи</h2>
-        <div class="to">
-            <span class="btn icon-uncheck" hidden></span>
-            <input type="text" placeholder="введите задачу">
-            <span class="btn icon-plus"></span>
+        <div class="to_list">
+            <!-- <div class="to">
+                <span class="btn"></span>
+                <input type="text" placeholder="введите задачу">
+                <span class="btn icon-plus"></span>
+            </div> -->
         </div>
         <h2>Выполненные задачи</h2>
-        <div class="do">
-            <!-- <span class="btn icon-down"></span>
-            <span class="btn icon-cancel"></span> -->
+        <div class="do_list">
+            
+            <!-- <div class="do">
+                <span class="btn icon-down"></span>
+                <span class="btn icon-cancel"></span>
+            </div> -->
         </div>
-
     </section>
 </body>
-<script src="sript.js"></script>
+<script src="script.js"></script>
+<script>
+    // const objPlan = {
+    //     wrapper: 'section',
+    //     btn: 'span',
+    // }
+
+
+    const myPlan = new Plan()
+
+    myPlan.init()
+
+</script>
+
 </html>
