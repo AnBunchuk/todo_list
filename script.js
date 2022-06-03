@@ -13,10 +13,9 @@ class Plan {
 
     inputVid() {
         this.divToList.oninput = (e) => {
-            this.divToValue = e.target.value
+            this.divToValue = e.target.value    
+            this.saveProject()
         }
-
-        this.saveProject()
     }
 
     clickVid() {
