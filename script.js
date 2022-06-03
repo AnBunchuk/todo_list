@@ -11,9 +11,10 @@ class Plan {
         this.objToDo = {}; // заносим обьекты div .to div .do для отправки в localStorage
     }
 
+
     inputVid() {
         this.divToList.oninput = (e) => {
-            this.divToValue = e.target.value    
+            this.divToValue = e.target.value
             this.saveProject()
         }
     }
@@ -120,6 +121,7 @@ class Plan {
             }
         })
         let objToJSON = JSON.stringify(this.objToDo);
+        // отправляем в localStorage
         localStorage.setItem('todo', objToJSON);
     }
 
@@ -128,6 +130,9 @@ class Plan {
         // вывод из localStorage
         this.saveToDo = localStorage.getItem('todo');
         this.saveToDo = JSON.parse(this.saveToDo);
+
+
+
         // исключения если localStorage пустой или обьект не содержит инф о div to div do
         if (!this.saveToDo || Object.keys(this.saveToDo).length === 0) { this.creatDivTo(0) }
 
@@ -149,10 +154,60 @@ class Plan {
         if (!serchDivTo) this.creatDivTo(++this.idDiv)
     }
 
+    // ////////////////////////////////////////////////////////////////////
+    // дз1 по  XMLHttpRequest
+    inputProject2() {
+        let dataServer = [];
+
+        // создаем обьект для получаем данных с сервера
+        const request = new XMLHttpRequest();
+
+        // запрос на сервер откуда будем получать и в каком виде запрос
+        request.open("GET", "https://jsonplaceholder.typicode.com/todos")
+        // настройка заголока нашего соединения, т.е. в каком формате мы хотим получить данные
+        request.setRequestHeader('Content-type', 'application/json')
+        // производим само соединение
+        request.send()
+
+        // создаем слушатель когда данные будут получены
+        request.addEventListener('readystatechange', (event) => {
+            // ждем статуса "получен"
+            if (request.readyState === 4 && request.status === 200) {
+                // получаем текст сообщения в виде строки
+                dataServer = request.responseText;
+                // преобразуем к формату JSON
+                dataServer = JSON.parse(dataServer)
+                // отфильтровуем userId:1
+                dataServer = dataServer.filter(e => e.userId === 1)
+
+                // подставляем данные в алгоритм согдания блоков todo
+                dataServer.forEach(e => {
+                    if (!e.completed) {
+                        this.creatDivTo(e.id)
+                        // добавили id
+                        let targetDiv = document.getElementById(e.id)
+                        let targitInput = targetDiv.children[1];
+                        // добавили текст задачи
+                        targitInput.setAttribute('value', e.title)
+                    }
+                    if (e.completed) {
+                        this.creatDivDo(e.id, e.title)
+                    }
+                })
+                let serchDivTo = this.divToList.querySelector('.to');
+                if (!serchDivTo) this.creatDivTo(++this.idDiv)
+
+            }
+        })
+    }
+    //////////////////////////////////////////////////////////////////////////////
+
 
     init() {
         console.dir(localStorage)
-        this.inputProject()
+
+        // this.inputProject()
+        this.inputProject2()
         this.clickVid()
         this.inputVid()
 
